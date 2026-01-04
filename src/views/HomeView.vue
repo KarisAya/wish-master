@@ -4,142 +4,88 @@ import { useRouter } from 'vue-router';
 import HeaderLogo from '../components/HeaderLogo.vue';
 import WishInput from '../components/WishInput.vue';
 import StepFlow from '../components/StepFlow.vue';
-import SignCard from '../components/SignCard.vue';
+import WishResultCard from '../components/WishResultCard.vue'; // 暂时复用组件，建议后续改名
 import AppFooter from '../components/AppFooter.vue';
 
 // 路由
 const router = useRouter();
 
 // 状态管理
-const currentStep = ref(0); // 0: 输入愿望, 1: 验证愿望, 2: 计算签等级, 3: 生成签文, 4: 展示结果
+// 0: 输入愿望, 1: 审查愿望, 2: 正在构建现实(钻漏洞), 3: 展示结果
+const currentStep = ref(0); 
 const wishText = ref('');
 const isLoading = ref(false);
 const error = ref(null);
 
-// 签文结果数据
-const signResult = reactive({
+// 愿望实现结果数据
+const wishResult = reactive({
   confirmed_wish: '',
-  level: '',
-  sign_text: {
-    classic: '',
-    modern: ''
-  },
-  interpretation: {
-    classic: '',
-    modern: ''
-  },
-  tone: ''
+  realization_scenario: '', // 存储LLM生成的反转剧情
 });
 
-// 处理愿望提交
+/**
+ * 处理愿望提交逻辑
+ */
 async function handleWishSubmit(wish) {
-  wishText.value = wish;
-  error.value = null;
+  currentStep.value = 1; // 进入“审查与构建”状态
+  isLoading.value = true;
   
   try {
-    // 步骤1: 验证愿望
-    currentStep.value = 1;
-    isLoading.value = true;
-    const validateResult = await validateWish(wish);
-    
-    // 如果验证不通过，跳转到错误页面
-    if (validateResult.result.category === 'block') {
-      router.push('/error');
+    const response = await fetch('/api/validateWish', {
+      method: 'POST',
+      body: JSON.stringify({ wish })
+    });
+    const data = await response.json();
+
+    if (data.result.category === 'block') {
+      router.push('/error'); // 违规处理
       return;
     }
+
+    // 直接拿到了结果！
+    wishResult.confirmed_wish = data.result.confirmed_wish;
+    wishResult.realization_scenario = data.result.scenario;
     
-    // 步骤2: 计算签等级
-    currentStep.value = 2;
-    const levelResult = await calculateSignLevel(wish);
-    const signLevel = levelResult.result.level;
-    
-    // 在"掐指一算"步骤多停留2秒
-    // 同时开始生成签文的请求（不等待结果）
-    const generatePromise = generateSign(wish, signLevel);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // 步骤3: 生成签文
-    currentStep.value = 3;
-    const generateResult = await generatePromise;
-    
-    // 保存结果
-    Object.assign(signResult, generateResult.result);
-    
-    // 步骤4: 展示结果
-    currentStep.value = 4;
-    
+    currentStep.value = 3; // 直接跳到展示结果
   } catch (err) {
-    error.value = err.message || '处理请求时发生错误';
-    currentStep.value = 0;
+    error.value = "因果律崩溃了w";
   } finally {
     isLoading.value = false;
   }
 }
 
-// 重新开始
+/**
+ * 重新开始许愿
+ */
 function handleRestart() {
   currentStep.value = 0;
   wishText.value = '';
   error.value = null;
-  // 重置签文结果
-  Object.assign(signResult, {
-    confirmed_wish: '',
-    level: '',
-    sign_text: { classic: '', modern: '' },
-    interpretation: { classic: '', modern: '' },
-    tone: ''
-  });
+  wishResult.confirmed_wish = '';
+  wishResult.realization_scenario = '';
 }
 
-// API调用函数
+// --- API 调用函数 ---
+
 async function validateWish(wish) {
   const response = await fetch('/api/validateWish', {
     method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Referer': window.location.origin + '/'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ wish })
   });
-  
-  if (!response.ok) {
-    throw new Error(`验证愿望失败: ${response.status}`);
-  }
-  
+  if (!response.ok) throw new Error(`验证失败: ${response.status}`);
   return await response.json();
 }
 
-async function calculateSignLevel(wish) {
-  const response = await fetch('/api/calculateSignLevel', {
+async function generateWishRealization(wish) {
+  // 注意：这里建议后端接口也统一命名为 generateWish 
+  const response = await fetch('/api/generateWish', {
     method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Referer': window.location.origin + '/'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ wish })
   });
   
-  if (!response.ok) {
-    throw new Error(`计算签等级失败: ${response.status}`);
-  }
-  
-  return await response.json();
-}
-
-async function generateSign(wish, level) {
-  const response = await fetch('/api/generateSign', {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'Referer': window.location.origin + '/'
-    },
-    body: JSON.stringify({ wish, level })
-  });
-  
-  if (!response.ok) {
-    throw new Error(`生成签文失败: ${response.status}`);
-  }
-  
+  if (!response.ok) throw new Error(`愿望实现失败: ${response.status}`);
   return await response.json();
 }
 </script>
@@ -156,18 +102,17 @@ async function generateSign(wish, level) {
       <WishInput @submit="handleWishSubmit" />
     </div>
     
-    <div v-else-if="currentStep < 4" class="processing-section">
+    <div v-else-if="currentStep < 3" class="processing-section">
       <StepFlow :current-step="currentStep" />
     </div>
     
     <div v-else class="result-section">
-      <SignCard 
-        :sign-data="signResult" 
+      <WishResultCard 
+        :sign-data="wishResult" 
         @restart="handleRestart"
       />
     </div>
     
-    <!-- 页脚组件 -->
     <AppFooter />
   </div>
 </template>
@@ -183,35 +128,20 @@ async function generateSign(wish, level) {
 }
 
 .error-message {
-  background-color: #ffebee;
-  color: #c62828;
+  background-color: #fff3e0;
+  color: #e65100;
   padding: 12px 16px;
   border-radius: 8px;
   margin: 16px 0;
+  border: 1px solid #ffe0b2;
   text-align: center;
 }
 
-.input-section {
+.input-section, .processing-section, .result-section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 10px 0;
-  margin-top: -10px; /* 减少与标题的间距 */
-}
-
-.processing-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  margin-top: -10px; /* 减少与标题的间距 */
-}
-
-.result-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 10px 0;
-  margin-top: -10px; /* 减少与标题的间距 */
+  margin-top: -10px;
 }
 </style>

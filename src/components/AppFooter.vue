@@ -6,27 +6,25 @@
   <footer class="app-footer">
     <div class="divider"></div>
     <div class="disclaimer">
-      本项目由 AI 模型生成内容，仅供娱乐参考，不构成任何建议。<br>
-      模型是Deepseek-chat
+      所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br>
+      智慧来源：DeepSeek-V3 
     </div>
     <div class="copyright">
-      © 2025 DeepLuck | 
-      <a href="https://github.com/senzi/llm-fortune-teller" target="_blank">
-        GitHub
-      </a> | 
-      <a href="https://afdian.com/a/sennes" target="_blank" class="afdian-link">
-        爱发电
+      © 2026 完美许愿器 | 
+      <a href="https://github.com/senzi/wish-master" target="_blank">
+        GitHub Source
       </a>
     </div>
+    <div class="warning-text">CAVEAT EMPTOR</div>
   </footer>
 </template>
 
 <style scoped>
 .app-footer {
-  margin-top: 2rem;
-  padding: 1.5rem 0;
+  margin-top: auto; /* 确保在内容不足时也沉在底部 */
+  padding: 2rem 0;
   background-color: transparent;
-  color: #999;
+  color: #7f8c8d;
   font-size: 12px;
   text-align: center;
   width: 100%;
@@ -34,42 +32,46 @@
 
 .divider {
   height: 1px;
-  background-color: #eaeaea;
+  /* 使用更暗淡的虚线，增加陈旧感 */
+  border-top: 1px dashed #ddd;
   margin-bottom: 1.5rem;
   width: 100%;
 }
 
 .disclaimer {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
+  margin-bottom: 0.8rem;
+  line-height: 1.8;
+  font-style: italic;
 }
 
 .copyright {
   line-height: 1.5;
+  letter-spacing: 1px;
 }
 
 .copyright a {
-  color: #999;
-  text-decoration: underline;
-}
-
-.copyright a:hover {
-  color: #666;
-}
-
-.afdian-link {
+  color: #2c3e50;
   text-decoration: none;
+  border-bottom: 1px solid #bdc3c7;
   transition: all 0.3s ease;
 }
 
-.afdian-link:hover {
-  color: #42b883 !important;
-  text-decoration: underline;
+.copyright a:hover {
+  color: #8e44ad;
+  border-bottom-color: #8e44ad;
+}
+
+.warning-text {
+  margin-top: 1rem;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: #bdc3c7;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {
   .app-footer {
-    padding: 1rem 10px;
+    padding: 1.5rem 10px;
   }
 }
 </style>

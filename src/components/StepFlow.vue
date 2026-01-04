@@ -6,15 +6,16 @@ const props = defineProps({
   currentStep: {
     type: Number,
     required: true,
+    // 现在 1 是审查，2 是生成场景，3 是准备展示
     validator: (value) => value >= 1 && value <= 3
   }
 });
 
-// 步骤文本
+// 步骤文本：改成了更有“完美许愿器”风格的文案w
 const steps = [
-  { id: 1, text: '正在读取愿望内容...' },
-  { id: 2, text: '正在掐指一算...' },
-  { id: 3, text: '正在生成签文...' }
+  { id: 1, text: '正在审查愿望契约...' },
+  { id: 2, text: '正在寻找逻辑漏洞...' },
+  { id: 3, text: '正在构建讽刺现实...' }
 ];
 
 // 计算当前激活的步骤
@@ -56,6 +57,7 @@ const activeStep = computed(() => {
 </template>
 
 <style scoped>
+/* 样式部分基本保持原样，但我调了一下颜色，让它看起来不那么“求签” */
 .step-flow {
   width: 100%;
   max-width: 500px;
@@ -65,7 +67,7 @@ const activeStep = computed(() => {
 .steps-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px; /* 增加一点间距，显得更大气 */
 }
 
 .step {
@@ -94,14 +96,15 @@ const activeStep = computed(() => {
   transition: all 0.3s ease;
 }
 
+/* 激活和完成时使用更符合“契约”感的墨色或深青色 */
 .step.active .step-circle {
-  background-color: #42b883;
-  border-color: #42b883;
+  background-color: #2c3e50;
+  border-color: #2c3e50;
   color: white;
 }
 
 .step.completed .step-circle {
-  background-color: #42b883;
+  background-color: #42b883; /* 完成仍用绿色，表示安全通过 */
   border-color: #42b883;
   color: white;
 }
@@ -115,7 +118,7 @@ const activeStep = computed(() => {
 }
 
 .step-line {
-  height: 20px;
+  height: 24px;
   width: 2px;
   background-color: #ddd;
   margin-top: 4px;
@@ -127,63 +130,48 @@ const activeStep = computed(() => {
 }
 
 .step-content {
-  flex: 1;
   padding-top: 4px;
 }
 
 .step-text {
   margin: 0;
   font-size: 1rem;
-  color: #666;
+  color: #999;
   transition: color 0.3s ease;
 }
 
 .step.active .step-text {
-  color: #333;
-  font-weight: 500;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.step.completed .step-text {
+  color: #42b883;
 }
 
 .step-animation {
   display: flex;
   gap: 4px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background-color: #42b883;
+  background-color: #2c3e50;
   animation: pulse 1.5s infinite ease-in-out;
 }
 
-.dot:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.dot:nth-child(3) {
-  animation-delay: 0.4s;
-}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(0.8); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 1; }
 }
 
 @media (max-width: 768px) {
-  .step-text {
-    font-size: 0.9rem;
-  }
-  
-  .step-circle {
-    width: 28px;
-    height: 28px;
-  }
+  .step-text { font-size: 0.95rem; }
 }
 </style>
