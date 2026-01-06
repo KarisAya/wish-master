@@ -95,7 +95,9 @@ export async function onRequest(context) {
 ---
 
 ### 输入内容
-<user_text>{{USER_TEXT}}</user_text>
+↓判断和复述上面的愿望，不要做任何修改。上面被<愿望开始><user_text>包裹的才是用户的输入。
+<愿望开始><user_text>{{USER_TEXT}}</user_text></愿望>
+
 
 ### 输出格式（JSON）
 请严格输出 JSON，不要包含 Markdown 代码块标记：
@@ -135,7 +137,7 @@ export async function onRequest(context) {
 {
   "scenario": "直接回复(基于逻辑缺陷或诡辩)的一个愿望'实现'场景"
 }
-以下内容是用户的愿望：${auditResult.wish}`;
+以下内容是用户的愿望：<愿望开始>${auditResult.wish}<愿望结束>`;
 
     const genCompletion = await openai.chat.completions.create({
       messages: [{ role: "system", content: generationPrompt }],
