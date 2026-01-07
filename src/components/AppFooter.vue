@@ -31,9 +31,9 @@ const closeSupport = () => {
       所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br>
       智慧来源：DeepSeek-V3
     </div>
-    
+
     <div class="copyright">
-      © 2026 完美许愿器 | 
+      © 2026 完美许愿器 |
       <a href="https://github.com/senzi/wish-master" target="_blank">
         GitHub Source
       </a>
@@ -44,9 +44,9 @@ const closeSupport = () => {
     </div>
 
     <div class="warning-text">CAVEAT EMPTOR</div>
-    
+
     <div class="hidden-protocol" @click="toggleSupport" title="建立连接">
-      [ <span class="protocol-icon">⚡</span> PROTOCOL: LINK ]
+      [ <span class="protocol-icon">⚡</span> 支持/连接 <span class="protocol-icon">⚡</span>]
     </div>
 
     <Transition name="fade">
@@ -62,7 +62,8 @@ const closeSupport = () => {
           </div>
 
           <div class="support-options">
-            <a href="https://vipclub.weibo.com/vmember/gfopend?F=profile&vuid=7402396589" target="_blank" class="option-card highlight">
+            <a href="https://vipclub.weibo.com/vmember/gfopend?F=profile&vuid=7402396589" target="_blank"
+              class="option-card highlight">
               <div class="card-icon">🌀</div>
               <div class="card-content">
                 <div class="card-title">潜入内部圈子</div>
@@ -71,14 +72,26 @@ const closeSupport = () => {
               </div>
             </a>
 
-            <a href="https://weibo.com/7402396589/QlQNWszJ0" target="_blank" class="option-card">
-              <div class="card-icon">☕</div>
-              <div class="card-content">
-                <div class="card-title">投喂单次补给</div>
-                <div class="card-desc">为LLM服务提供一点算力，或者请我喝杯可乐，让许愿器继续流转。</div>
-                <div class="card-meta">DONATION: OPEN</div>
+            <div class="option-card donation-complex">
+              <a href="https://weibo.com/7402396589/QlQNWszJ0" target="_blank" class="donation-link-part">
+                <div class="card-icon">☕</div>
+                <div class="card-content">
+                  <div class="card-title">
+                    投喂单次补给
+                    <span class="link-arrow">↗</span>
+                  </div>
+                  <div class="card-desc">点击前往微博打赏，或向下查看二维码 w</div>
+                  <div class="card-meta">DONATION: OPEN</div>
+                </div>
+              </a>
+
+              <div class="donation-divider"></div>
+
+              <div class="donation-qr-part">
+                <img src="/sponsor.png" alt="Sponsor QR" class="mini-qr">
+                <span class="qr-hint">WeChat Scan / 微信扫码</span>
               </div>
-            </a>
+            </div>
 
             <a href="https://weibo.com/u/7402396589" target="_blank" class="option-card">
               <div class="card-icon">👁️</div>
@@ -197,29 +210,37 @@ const closeSupport = () => {
 
 /* 修改后的样式：更可见，但保持低调 */
 .hidden-protocol {
-  margin-top: 20px; /* 增加一点顶部间距，和 CAEVAT EMPTOR 分开 */
-  font-size: 10px;  /* 字体稍微大一点点，保证可读 */
-  color: #95a5a6;   /* 使用水泥灰，看起来像是不重要的信息 */
+  margin-top: 20px;
+  /* 增加一点顶部间距，和 CAEVAT EMPTOR 分开 */
+  font-size: 10px;
+  /* 字体稍微大一点点，保证可读 */
+  color: #95a5a6;
+  /* 使用水泥灰，看起来像是不重要的信息 */
   cursor: pointer;
-  opacity: 0.8;     /* 提高不透明度，现在肉眼直接可见 */
+  opacity: 0.8;
+  /* 提高不透明度，现在肉眼直接可见 */
   transition: all 0.3s ease;
   letter-spacing: 1.5px;
-  font-family: 'Courier New', monospace; /* 代码风格字体 */
+  font-family: 'Courier New', monospace;
+  /* 代码风格字体 */
   display: inline-block;
-  padding: 5px; /* 增加点击区域 */
+  padding: 5px;
+  /* 增加点击区域 */
 }
 
 /* 交互反馈：只有按下去或者鼠标放上去才会变色 */
-.hidden-protocol:hover, 
+.hidden-protocol:hover,
 .hidden-protocol:active {
   color: #8e44ad;
   text-shadow: 0 0 8px rgba(142, 68, 173, 0.4);
-  transform: scale(1.02); /* 微微放大，更有按键感 */
+  transform: scale(1.02);
+  /* 微微放大，更有按键感 */
 }
 
 .protocol-icon {
   margin-right: 2px;
-  opacity: 0.7; /* 图标稍微暗一点 */
+  opacity: 0.7;
+  /* 图标稍微暗一点 */
 }
 
 /* 模态框遮罩 */
@@ -244,7 +265,7 @@ const closeSupport = () => {
   width: 100%;
   max-width: 400px;
   border-radius: 12px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   border: 1px solid rgba(142, 68, 173, 0.2);
   animation: modalSlideUp 0.3s ease-out;
@@ -344,6 +365,7 @@ const closeSupport = () => {
     opacity: 0;
     transform: translateY(20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -358,5 +380,91 @@ const closeSupport = () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* 覆盖默认的 option-card 布局，改为垂直排列 */
+.option-card.donation-complex {
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* 清除默认内边距，由内部控制 */
+  gap: 0;
+  cursor: default; /* 外层不显示手型，手型给链接部分 */
+  overflow: hidden; /* 保证圆角 */
+  background: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+/* 鼠标放上去时，整体稍微浮起一点点 */
+.donation-complex:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-color: #bdc3c7;
+  transform: translateY(-2px);
+}
+
+/* 上半部分：链接区域 */
+.donation-link-part {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px;
+  text-decoration: none;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+/* 链接区域的 Hover 效果 */
+.donation-link-part:hover {
+  background-color: #f8f9fa;
+}
+
+.donation-link-part:hover .card-title {
+  color: #8e44ad;
+}
+
+.link-arrow {
+  font-size: 10px;
+  margin-left: 4px;
+  opacity: 0.5;
+}
+
+/* 分割线：虚线，内敛的关键 */
+.donation-divider {
+  width: 90%;
+  height: 1px;
+  border-top: 1px dashed #eee;
+  margin: 0 auto;
+}
+
+/* 下半部分：二维码区域 */
+.donation-qr-part {
+  padding: 12px;
+  display: flex;
+  flex-direction: column; /* 垂直排列图片和文字 */
+  align-items: center;
+  background-color: #fff;
+}
+
+/* 二维码图片：小巧精致 */
+.mini-qr {
+  width: 100px; /* 控制在 100px，非常内敛 */
+  height: 100px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+/* 鼠标悬停二维码时，稍微清晰一点，暗示可交互 */
+.donation-qr-part:hover .mini-qr {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.qr-hint {
+  font-size: 9px;
+  color: #bdc3c7;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  transform: scale(0.9); /* 字体再小一点 */
 }
 </style>
