@@ -7,10 +7,9 @@ export async function onRequest(context) {
   const deepseekApiBaseUrl = context.env.DEEPSEEK_API_BASE_URL || 'https://api.deepseek.com';
 
   const allowedOrigins = [
-    'https://wish.closeai.moe',
-    'https://deepluck.closeai.moe',
     'http://127.0.0.1:8788',
-    'http://localhost:8788'
+    'http://localhost:8788',
+    ...(context.env.ALLOWED_ORIGINS ? context.env.ALLOWED_ORIGINS.split(',') : [])
   ];
 
   let isAllowedOrigin = false;
@@ -125,19 +124,10 @@ export async function onRequest(context) {
     }
 
     // --- 步骤 2: 生成实现场景 ---
-    const generationPrompt = `# CONTEXT #
-你将会收到用户的愿望。如果愿望是美好的祈愿则输出鼓励的话语。否则在满足愿望的前提下找到漏洞，使得用户的许愿得不到预期的利益。
-# OBJECTIVE #
-回复一个愿望实现的场景，如果用户的愿望是朴素善良的人类感情那么尽可能描绘一个美好的场景，至少使用户的得内心到些许治愈，否则完全满足愿望但结果和预想完全不同且没有收益（基于用户愿望中的逻辑缺陷或诡辩），但如果用户逻辑极其严密那么在最低限度内满足用户的愿望。
-# STYLE & TONE #
-幽默、富有同情心，非常擅长找语言漏洞。
-# RESPONSE JSON #
-{
-  "scenario": "直接回复(美好的,或基于逻辑缺陷或诡辩)的一个愿望'实现'场景"
-  "score": "若愿望是朴素善良的人类感情则给100分,否则表示愿望逻辑严谨性，为0-99分。若只是宽泛的叙述则给10分以下，逻辑越严密，漏洞越少分数越高。"
-}
+    const generationPrompt = `你将会收到用户的愿望。如果愿望是美好的祈愿或朴素善良的人类感情则输出鼓励的话语，尽可能描绘一个美好的场景，使用户的得内心到些许治愈。如果愿望出于用户的贪婪、懒惰、欲望等负面因素，你应该在满足愿望的前提下找到漏洞，使得用户的许愿得不到预期的利益。但如果用户逻辑极其严密，请尽量保证你的输出无争议的满足用户的愿望，即使这样会在最低限度内满足用户的愿望。
+你的回答应该幽默、富有同情心，非常擅长找语言漏洞。
+JSON OUTPUT:{"scenario": "直接回复(美好的,或基于逻辑缺陷或诡辩)的一个愿望'实现'场景","score": "如果出于负面因素则score表示愿望逻辑严谨性：若只是宽泛的叙述则给0分，逻辑越严密，漏洞越少分数越高,最高为9分。如果愿望是美好的则为10分"}
 以下内容是用户的愿望：<愿望开始>${auditResult.wish}<愿望结束>`;
-
     const genCompletion = await openai.chat.completions.create({
       messages: [{ role: "system", content: generationPrompt }],
       model: "deepseek-chat",

@@ -29,10 +29,17 @@ function handleRestart() {
   emit('restart');
 }
 function getScoreColorClass(score) {
-  if (score == 100) {
+  if (score == 10) {
     return 'perfect-score';
   } else{
     return 'normal-score';
+  }
+}
+const getFinalScore = () => {
+  if (props.signData.score == 10) {
+    return 100;
+  } else {
+    return props.signData.score * 10 + Math.ceil(Math.random() * 9);
   }
 }
 // 下载图片逻辑
@@ -106,7 +113,7 @@ onMounted(async () => {
         <div v-if="props.signData.score !== -1" class="score-section">
           <span class="score-label">愿望逻辑严谨度：</span>
           <span class="score-value":class="getScoreColorClass(props.signData.score)">
-            {{ props.signData.score }}
+            {{ getFinalScore() }}
           </span>
         </div>
         <div class="divider">契约达成情况</div>
