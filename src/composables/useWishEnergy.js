@@ -63,6 +63,7 @@ export function useWishEnergy() {
   };
 
   const consumeEnergy = () => {
+    loadFromStorage(); // 消耗前先同步
     if (count.value <= 0) return false;
 
     const currentTime = Date.now();
@@ -76,6 +77,7 @@ export function useWishEnergy() {
   };
 
   const refundEnergy = () => {
+    loadFromStorage(); // 返还前先同步
     if (count.value < MAX_ENERGY) {
       count.value += 1;
       if (count.value === MAX_ENERGY) {

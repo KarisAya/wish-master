@@ -61,6 +61,7 @@ async function handleWishSubmit(wish) {
 
     // 4. 处理返回结果
     if (data.result && data.result.category === 'block') {
+      refundEnergy(); // 审查未通过也返还能量
       router.push('/error'); // 违规处理
       return;
     }
@@ -174,3 +175,5 @@ function handleRestart() {
   opacity: 0;
 }
 </style>
+>>>>+++ REPLACE
+
