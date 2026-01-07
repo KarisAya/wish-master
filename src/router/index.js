@@ -13,6 +13,11 @@ const routes = [
     name: 'error',
     component: ErrorView
   },
+  { 
+    path: '/wish-result-preview',
+    name: 'wish',
+    component: () => import('../views/WishResultCardPreview.vue')
+  },
   // 将所有未匹配的路由重定向到首页
   {
     path: '/:pathMatch(.*)*',

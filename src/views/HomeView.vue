@@ -24,12 +24,18 @@ const { refundEnergy } = useWishEnergy();
 const wishResult = reactive({
   confirmed_wish: '',
   realization_scenario: '', // 存储LLM生成的反转剧情
+  score: -1,
 });
 
 /**
  * 处理愿望提交逻辑 - 加入了“恶意”延迟版
  */
 async function handleWishSubmit(wish) {
+  if (wish.trim() === '/test') {
+    // 直接跳转到测试预览页面
+    router.push('/wish-result-preview');
+    return;
+  }
   // 1. 开始：进入【审查阶段】
   // 此时 StepFlow 显示第一步：正在扫描灵魂签署痕迹...
   currentStep.value = 1; 
@@ -69,6 +75,7 @@ async function handleWishSubmit(wish) {
     // 拿到结果
     wishResult.confirmed_wish = data.result.confirmed_wish;
     wishResult.realization_scenario = data.result.scenario;
+    wishResult.score = data.result.score;
     
     // 为了防止 API 响应太快导致步骤 2 闪退，
     // 我们可以再额外增加一点点“构建现实”的时间（可选，这里加了1秒）
@@ -98,6 +105,7 @@ function handleRestart() {
   error.value = null;
   wishResult.confirmed_wish = '';
   wishResult.realization_scenario = '';
+
 }
 </script>
 

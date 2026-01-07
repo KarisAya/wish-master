@@ -28,7 +28,13 @@ const isDownloading = ref(false); // 下载状态，防止重复点击
 function handleRestart() {
   emit('restart');
 }
-
+function getScoreColorClass(score) {
+  if (score == 100) {
+    return 'perfect-score';
+  } else{
+    return 'normal-score';
+  }
+}
 // 下载图片逻辑
 async function handleDownload() {
   if (!cardRef.value || isDownloading.value) return;
@@ -97,7 +103,12 @@ onMounted(async () => {
           <div class="label-tag">原定愿望</div>
           <h2 class="wish-title">「 {{ props.signData.confirmed_wish }} 」</h2>
         </div>
-
+        <div v-if="props.signData.score !== -1" class="score-section">
+          <span class="score-label">愿望逻辑严谨度：</span>
+          <span class="score-value":class="getScoreColorClass(props.signData.score)">
+            {{ props.signData.score }}
+          </span>
+        </div>
         <div class="divider">契约达成情况</div>
 
         <div class="realization-section">
@@ -219,6 +230,30 @@ onMounted(async () => {
   height: 1px;
   background: #bdc3c7;
   margin: 0 10px;
+}
+
+.score-section {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: rgba(248, 249, 250, 0.5);
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+.score-value {
+  font-weight: bold;
+  font-size: 2em;
+}
+.score-value.perfect-score {
+  color: #ff69b4;
+  font-weight: bold;
+  font-family: 'Comic Sans MS';
+}
+
+.score-value.normal-score {
+  color: #007bff; /* 蓝色 */
+  font-weight: bold;
+  font-family: 'Courier New';
 }
 
 .realization-section {

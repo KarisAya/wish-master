@@ -10,8 +10,8 @@ const { count, countdownStr, consumeEnergy, MAX_ENERGY } = useWishEnergy();
 // 愿望输入
 const wishInput = ref('');
 const isSubmitting = ref(false);
-// 呜呜，把字数限制提升到80啦
-const maxLength = 80;
+// 呜呜，把字数限制提升到160啦
+const maxLength = 160;
 
 // 更改为更有“欲望感”的示例
 const exampleWishes = [

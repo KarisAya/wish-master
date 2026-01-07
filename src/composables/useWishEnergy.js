@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 const STORAGE_KEY = 'wish_energy_status_v1';
-const MAX_ENERGY = 3;
+const MAX_ENERGY = 5;
 const RECOVER_INTERVAL = 10 * 60 * 1000; // 10 minutes in ms
 
 export function useWishEnergy() {

@@ -70,7 +70,6 @@ const closeSupport = () => {
                 <div class="card-meta">ACCESS: YEARLY PASS</div>
               </div>
             </a>
-
             <div class="option-card donation-complex">
               <a href="https://weibo.com/7402396589/QlQNWszJ0" target="_blank" class="donation-link-part">
                 <div class="card-icon">☕</div>
@@ -83,15 +82,12 @@ const closeSupport = () => {
                   <div class="card-meta">DONATION: OPEN</div>
                 </div>
               </a>
-
               <div class="donation-divider"></div>
-
               <div class="donation-qr-part">
                 <img src="/sponsor.png" alt="Sponsor QR" class="mini-qr">
                 <span class="qr-hint">WeChat Scan / 微信扫码</span>
               </div>
             </div>
-
             <a href="https://weibo.com/u/7402396589" target="_blank" class="option-card">
               <div class="card-icon">👁️</div>
               <div class="card-content">
@@ -101,7 +97,6 @@ const closeSupport = () => {
               </div>
             </a>
           </div>
-
           <div class="modal-footer">
             点击任意空白处断开连接...
           </div>
