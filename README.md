@@ -8,7 +8,7 @@
 
 # 改动
 
-`/api/validateWish`
+1. 对 `/api/validateWish` 进行修改
 
 **Method**: `POST`
 
@@ -28,12 +28,11 @@
 {
   "status": "success",
   "result": {
-    "category": "allow",
     "confirmed_wish": "我想要点石成金的能力",
     "scenario": "你的愿望实现了，但由于金价暴跌且你触碰的日常用品都变成了无用的重金属，你最终一贫如洗...",
     "score": 6 // 愿望逻辑得分 0-10
-  },
-  "debug_audit": { "..." } // 仅供调试参考
+  }
 }
-
 ```
+
+2. 去掉了 AI 审核
