@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 // 控制模态框的显示状态
 const showSupport = ref(false);
@@ -19,17 +19,16 @@ const closeSupport = () => {
     <div class="divider"></div>
     <div class="system-log">
       <span class="log-tag">[ System Patch v1.2-Unstable ]</span>
-      <p>
-        因果律稳压器已上线。防止现实扭曲场过载。
-      </p>
+      <p>因果律稳压器已上线。防止现实扭曲场过载。</p>
     </div>
 
     <div class="hidden-protocol" @click="toggleSupport" title="建立连接">
-      [ <span class="protocol-icon">⚡</span> 转接/连接 <span class="protocol-icon">⚡</span>]
+      [ <span class="protocol-icon">⚡</span> 转接/连接
+      <span class="protocol-icon">⚡</span>]
     </div>
 
     <div class="disclaimer">
-      所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br>
+      所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br />
       智慧来源：DeepSeek-V3
     </div>
 
@@ -42,33 +41,38 @@ const closeSupport = () => {
       <a href="https://weibo.com/u/7402396589" target="_blank">
         @阿尼亚是安妮亞
       </a>
-      <br/>
+      <br />
       © 2026 不完美许愿器 |
       <a href="https://github.com/KarisAya/wish-master" target="_blank">
         GitHub Source
       </a>
       |
-      <a href="https://qm.qq.com/q/AnTDkyTrii" target="_blank">
-        @karisaya
-      </a>
+      <a href="https://qm.qq.com/q/AnTDkyTrii" target="_blank"> @karisaya </a>
     </div>
     <div class="warning-text">CAVEAT EMPTOR</div>
 
     <Transition name="fade">
-      <div v-if="showSupport" class="support-modal-mask" @click.self="closeSupport">
+      <div
+        v-if="showSupport"
+        class="support-modal-mask"
+        @click.self="closeSupport"
+      >
         <div class="support-modal">
           <div class="modal-header">
             <h3>/// 建立神经连接 ///</h3>
             <p class="modal-intro">
-              无需契约，也没有灵魂交易。<br>
-              只是为了在庞大的数据洪流中，找到同频的信号 w<br>
+              无需契约，也没有灵魂交易。<br />
+              只是为了在庞大的数据洪流中，找到同频的信号 w<br />
               如果你觉得“完美许愿器”有趣，欢迎通过以下方式接入终端：
             </p>
           </div>
 
           <div class="support-options">
-            <a href="https://wish.closeai.moe" target="_blank"
-              class="option-card highlight">
+            <a
+              href="https://wish.closeai.moe"
+              target="_blank"
+              class="option-card highlight"
+            >
               <div class="card-icon">🔮</div>
               <div class="card-content">
                 <div class="card-title">完美许愿器</div>
@@ -76,20 +80,24 @@ const closeSupport = () => {
                 <div class="card-meta">TARGET: ORIGIN</div>
               </div>
             </a>
-            <a href=" https://qun.qq.com/universal-share/share?ac=1&authKey=Iq8lDUYcAI8SG0HN%2FKvL5pJ73t7PKP2rMAB6qNEi99NbICjplNnMyticRq3p0XU8&busi_data=eyJncm91cENvZGUiOiI3NDQ3NTExNzkiLCJ0b2tlbiI6IkFSRDFFbXB4YkgyNXZhVk54Ti91cmMzTzB3WU1OTzdJajRxSWxHRExzYTQrV1p1a1FYS3hoYm1aRGJQeVpVU0UiLCJ1aW4iOiIxMDQ4ODI3NDI0In0%3D&data=7NPR3RM7asHobWOB7K7CN8Y3xakqhQjBx160Xocnxt960S2Yo82Ce1erDIfMh4qHD4pJBxeQqUSMvHfozpsyVQ&svctype=4&tempid=h5_group_info" target="_blank"
-            class="option-card highlight">
+            <a
+              href=" https://qun.qq.com/universal-share/share?ac=1&authKey=Iq8lDUYcAI8SG0HN%2FKvL5pJ73t7PKP2rMAB6qNEi99NbICjplNnMyticRq3p0XU8&busi_data=eyJncm91cENvZGUiOiI3NDQ3NTExNzkiLCJ0b2tlbiI6IkFSRDFFbXB4YkgyNXZhVk54Ti91cmMzTzB3WU1OTzdJajRxSWxHRExzYTQrV1p1a1FYS3hoYm1aRGJQeVpVU0UiLCJ1aW4iOiIxMDQ4ODI3NDI0In0%3D&data=7NPR3RM7asHobWOB7K7CN8Y3xakqhQjBx160Xocnxt960S2Yo82Ce1erDIfMh4qHD4pJBxeQqUSMvHfozpsyVQ&svctype=4&tempid=h5_group_info"
+              target="_blank"
+              class="option-card highlight"
+            >
               <div class="card-icon">🎉</div>
               <div class="card-content">
                 <div class="card-title">机器人bug研究中心</div>
                 <div class="card-desc">这里是QQ群，欢迎光临</div>
-                <div class="card-meta">GROUP: WELCOME </div>
+                <div class="card-meta">GROUP: WELCOME</div>
               </div>
-              <img src="https://raw.githubusercontent.com/clovers-project/clovers/master/attachment/qrcode.svg" style="height:60px;"></img>
+              <img
+                src="https://raw.githubusercontent.com/clovers-project/clovers/master/attachment/qrcode.svg"
+                style="height: 60px"
+              />
             </a>
           </div>
-          <div class="modal-footer">
-            点击任意空白处断开连接...
-          </div>
+          <div class="modal-footer">点击任意空白处断开连接...</div>
         </div>
       </div>
     </Transition>
@@ -118,7 +126,7 @@ const closeSupport = () => {
 
 .system-log {
   margin-bottom: 0.5rem;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 11px;
   color: #95a5a6;
   background-color: rgba(0, 0, 0, 0.02);
@@ -180,14 +188,14 @@ const closeSupport = () => {
 /* 修改后的样式 */
 .hidden-protocol {
   /* 1. 让它独占一行，解决不换行的问题 */
-  display: block; 
-  
+  display: block;
+
   /* 2. 让宽度适应内容，而不是撑满整行（保持按钮的紧凑感） */
-  width: fit-content; 
-  
+  width: fit-content;
+
   /* 3. 因为变成了 block，需要用 margin auto 来居中 */
-  margin: 10px auto; 
-  
+  margin: 10px auto;
+
   /* ...以下保持原样... */
   font-size: 10px;
   color: #95a5a6;
@@ -195,7 +203,7 @@ const closeSupport = () => {
   opacity: 0.8;
   transition: all 0.3s ease;
   letter-spacing: 1.5px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   padding: 5px;
 }
 
@@ -317,7 +325,7 @@ const closeSupport = () => {
 .card-meta {
   font-size: 9px;
   color: #8e44ad;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-weight: bold;
   opacity: 0.8;
 }

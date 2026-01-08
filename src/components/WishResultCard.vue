@@ -1,14 +1,16 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
-import { animate } from 'animejs';
-import { snapdom } from '@zumer/snapdom'; // 确保你安装了 npm install @zumer/snapdom
+import { ref, onMounted, nextTick } from "vue";
+import { animate } from "animejs";
+import { snapdom } from "@zumer/snapdom"; // 确保你安装了 npm install @zumer/snapdom
+import router from "../router";
 
 // 动态添加 DaisyUI CSS (保持你的原始逻辑)
 onMounted(() => {
   if (!document.querySelector('link[href*="daisyui"]')) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdn.bootcdn.net/ajax/libs/daisyui/4.12.23/full.min.css';
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href =
+      "https://cdn.bootcdn.net/ajax/libs/daisyui/4.12.23/full.min.css";
     document.head.appendChild(link);
   }
 });
@@ -16,32 +18,32 @@ onMounted(() => {
 const props = defineProps({
   signData: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const emit = defineEmits(['restart']);
+const emit = defineEmits(["restart"]);
 const cardRef = ref(null);
 const isDownloading = ref(false); // 下载状态，防止重复点击
 
 // 重新开始
 function handleRestart() {
-  emit('restart');
+  router.push("/");
 }
 function getScoreColorClass(score) {
   if (score == 10) {
-    return 'perfect-score';
-  } else{
-    return 'normal-score';
+    return "perfect-score";
+  } else {
+    return "normal-score";
   }
 }
 const getFinalScore = () => {
-  if (props.signData.score == 10) {
+  if (props.signData.score == 100) {
     return 100;
   } else {
     return props.signData.score * 10 + Math.ceil(Math.random() * 9);
   }
-}
+};
 // 下载图片逻辑
 async function handleDownload() {
   if (!cardRef.value || isDownloading.value) return;
@@ -56,8 +58,8 @@ async function handleDownload() {
 
     // 强制设定为桌面端的典型宽度 (例如 600px)，防止手机上截成细长条
     // 注意：用户可能会瞬间看到闪烁，但这是为了截图正确
-    cardRef.value.style.width = '600px';
-    cardRef.value.style.maxWidth = 'none';
+    cardRef.value.style.width = "600px";
+    cardRef.value.style.maxWidth = "none";
 
     // 2. 使用 snapdom 截图
     // 这里的 scale: 2 是为了高清屏（Retina）效果，保证文字清晰
@@ -65,22 +67,21 @@ async function handleDownload() {
       scale: 2,
       style: {
         // 确保截图背景是干净的，防止透明
-        backgroundColor: '#fff9f0',
-      }
+        backgroundColor: "#fff9f0",
+      },
     });
 
     // 3. 触发下载
     // 文件名带上时间戳，增加仪式感
     const filename = `PerfectWish_Contract_${Date.now()}`;
-    await result.download({ format: 'png', filename: filename });
+    await result.download({ format: "png", filename: filename });
 
     // 4. 恢复样式
     cardRef.value.style.width = originalWidth;
     cardRef.value.style.maxWidth = originalMaxWidth;
-
   } catch (error) {
-    console.error('保存契约失败:', error);
-    alert('保存失败，请截图保存 w');
+    console.error("保存契约失败:", error);
+    alert("保存失败，请截图保存 w");
   } finally {
     isDownloading.value = false;
   }
@@ -94,7 +95,7 @@ onMounted(async () => {
       opacity: [0, 1],
       scale: [0.9, 1],
       duration: 1000,
-      easing: 'easeOutElastic(1, .8)'
+      easing: "easeOutElastic(1, .8)",
     });
   }
 });
@@ -112,7 +113,10 @@ onMounted(async () => {
         </div>
         <div v-if="props.signData.score !== -1" class="score-section">
           <span class="score-label">愿望逻辑严谨度：</span>
-          <span class="score-value":class="getScoreColorClass(props.signData.score)">
+          <span
+            class="score-value"
+            :class="getScoreColorClass(props.signData.score)"
+          >
             {{ getFinalScore() }}
           </span>
         </div>
@@ -128,7 +132,7 @@ onMounted(async () => {
         </div>
 
         <div class="disclaimer">
-          警告：本系统遵循严格的逻辑演绎，任何利益受损均由许愿者逻辑不严密引起。<br>
+          警告：本系统遵循严格的逻辑演绎，任何利益受损均由许愿者逻辑不严密引起。<br />
           Powered by DeepSeek & 完美许愿器 v2.0
         </div>
 
@@ -140,7 +144,11 @@ onMounted(async () => {
     </div>
 
     <div class="action-buttons">
-      <button @click="handleDownload" class="btn btn-outline btn-secondary shadow-md" :disabled="isDownloading">
+      <button
+        @click="handleDownload"
+        class="btn btn-outline btn-secondary shadow-md"
+        :disabled="isDownloading"
+      >
         <span v-if="!isDownloading">保存契约图片</span>
         <span v-else class="loading loading-spinner loading-sm"></span>
       </button>
@@ -149,16 +157,6 @@ onMounted(async () => {
         重新修正愿望 w
       </button>
     </div>
-
-    <div class="stats-hint">
-      <p>
-        完美许愿器已经处理超过 <span class="num">120万</span> 个愿望。
-      </p>
-      <p>
-        如果你因此感到“快乐”，可以点击页面下方的按钮支持我w
-      </p>
-    </div>
-
   </div>
 </template>
 
@@ -190,11 +188,13 @@ onMounted(async () => {
 /* 契约顶部的条纹 */
 .contract-header {
   height: 12px;
-  background: repeating-linear-gradient(45deg,
-      #2c3e50,
-      #2c3e50 10px,
-      #e74c3c 10px,
-      #e74c3c 20px);
+  background: repeating-linear-gradient(
+    45deg,
+    #2c3e50,
+    #2c3e50 10px,
+    #e74c3c 10px,
+    #e74c3c 20px
+  );
   border-bottom: 2px solid #2c3e50;
 }
 
@@ -232,7 +232,7 @@ onMounted(async () => {
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: #bdc3c7;
@@ -254,13 +254,13 @@ onMounted(async () => {
 .score-value.perfect-score {
   color: #ff69b4;
   font-weight: bold;
-  font-family: 'Comic Sans MS';
+  font-family: "Comic Sans MS";
 }
 
 .score-value.normal-score {
   color: #007bff; /* 蓝色 */
   font-weight: bold;
-  font-family: 'Courier New';
+  font-family: "Courier New";
 }
 
 .realization-section {
@@ -334,9 +334,9 @@ onMounted(async () => {
 
 .promo-link .author-credit {
   font-size: 0.7rem; /* 稍微小一点，作为署名 */
-  color: #95a5a6;    /* 稍微深一点或者淡一点的灰色，看你喜好 */
+  color: #95a5a6; /* 稍微深一点或者淡一点的灰色，看你喜好 */
   letter-spacing: 0.5px;
-  opacity: 0.6;      /* 降低一点存在感，显得更精致 */
+  opacity: 0.6; /* 降低一点存在感，显得更精致 */
 }
 
 .action-buttons {
@@ -386,31 +386,6 @@ onMounted(async () => {
   .btn {
     width: 100%;
   }
-}
-
-/* 新增样式：底部统计提示 */
-.stats-hint {
-  text-align: center;
-  margin-top: 1rem;
-  /* 与按钮拉开一点距离 */
-  margin-bottom: 1rem;
-  /* 底部留白 */
-  font-size: 0.8rem;
-  /* 字号偏小，显得精致 */
-  color: #7f8c8d;
-  /* 使用低调的灰色，不刺眼 */
-  line-height: 1.6;
-  /* 行高拉开，防止两行挤在一起 */
-}
-
-/* 数字强调 */
-.stats-hint .num {
-  color: #2c3e50;
-  /* 深色突出数字 */
-  font-weight: bold;
-  font-family: 'Courier New', monospace;
-  /* 等宽字体增加一点“系统数据”的感觉 */
-  margin: 0 2px;
 }
 
 /* 移动端适配微调 */

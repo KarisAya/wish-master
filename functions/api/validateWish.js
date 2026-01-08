@@ -49,7 +49,7 @@ JSON OUTPUT:{"scenario": "直接回复(美好的,或基于逻辑缺陷或诡辩)
     }
 
     if (userInput.length > 160) {
-      return new Response(JSON.stringify({status: 'success',result: { category: 'block', reason: '对不起，您的愿望太长了，因果律超载。', wish: '' }}), { headers: responseHeaders });
+      return new Response(JSON.stringify({status: 'success',result: { reason: '对不起，您的愿望太长了，因果律超载。', wish: '' }}), { headers: responseHeaders });
     }
 
     const openai = new OpenAI({ baseURL: deepseekApiBaseUrl, apiKey: deepseekApiKey });
@@ -87,7 +87,6 @@ JSON OUTPUT:{"scenario": "直接回复(美好的,或基于逻辑缺陷或诡辩)
         scenario: genResult.scenario, 
         score: genResult.score
       },
-      debug_audit: auditResult 
     }), { headers: responseHeaders });
   } catch (error) {
     console.error('API Error:', error);

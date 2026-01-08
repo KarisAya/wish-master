@@ -1,33 +1,35 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import ErrorView from '../views/ErrorView.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import ErrorView from "../views/ErrorView.vue";
+import WishResultCardView from "../views/WishResultCardView.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/error',
-    name: 'error',
-    component: ErrorView
+    path: "/error",
+    name: "error",
+    component: ErrorView,
   },
-  { 
-    path: '/wish-result-preview',
-    name: 'wish',
-    component: () => import('../views/WishResultCardPreview.vue')
+  // router/index.js 中添加路由
+  {
+    path: "/wish-result",
+    name: "WishResult",
+    component: WishResultCardView,
   },
   // 将所有未匹配的路由重定向到首页
   {
-    path: '/:pathMatch(.*)*',
-    redirect: '/'
-  }
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 });
 
 export default router;
