@@ -38,7 +38,7 @@ function getScoreColorClass(score) {
   }
 }
 const getFinalScore = () => {
-  if (props.signData.score == 100) {
+  if (props.signData.score == 10) {
     return 100;
   } else {
     return props.signData.score * 10 + Math.ceil(Math.random() * 9);
