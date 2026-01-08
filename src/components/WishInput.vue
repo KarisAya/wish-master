@@ -5,7 +5,7 @@ import { useWishEnergy } from '../composables/useWishEnergy';
 // 定义组件事件
 const emit = defineEmits(['submit']);
 
-const { count, stability, countdownStr, consumeEnergy, MAX_ENERGY, MAX_STABILITY } = useWishEnergy();
+const { count, countdownStr, consumeEnergy, MAX_ENERGY } = useWishEnergy();
 
 // 愿望输入
 const wishInput = ref('');
@@ -22,13 +22,12 @@ const exampleWishes = [
 
 // 处理提交
 function handleSubmit() {
-  if (!wishInput.value.trim() || isSubmitting.value || count.value <= 0 || stability.value <= 0) return;
+  if (!wishInput.value.trim() || isSubmitting.value || count.value <= 0) return;
   if (wishInput.value.length > maxLength) return;
   
   if (consumeEnergy()) {
     isSubmitting.value = true;
     emit('submit', wishInput.value);
-    
     // 重置状态
     setTimeout(() => {
       isSubmitting.value = false;
@@ -65,52 +64,27 @@ const remainingChars = computed(() => {
       </span>
     </div>
 
-    <div class="energy-status-row">
-      <!-- CD 时间 -->
-      <div v-if="count < MAX_ENERGY" class="cd-text">
-        ({{ countdownStr }})
-      </div>
-
-      <!-- 紫色能量点 -->
+    <div class="energy-container">
       <div class="slots">
         <div 
           v-for="i in MAX_ENERGY" 
-          :key="'e'+i" 
-          class="dot purple" 
+          :key="i" 
+          class="dot" 
           :class="{ active: i <= count }"
         ></div>
       </div>
-
-      <!-- 分隔符 -->
-      <div class="separator">|</div>
-
-      <!-- 红色能量点 -->
-      <div class="slots">
-        <div 
-          v-for="i in MAX_STABILITY" 
-          :key="'s'+i" 
-          class="dot red" 
-          :class="{ active: i <= stability }"
-        ></div>
+      <div v-if="count < MAX_ENERGY" class="status-text">
+        RECHARGING {{ countdownStr }}
       </div>
     </div>
-
-    <!-- 灵魂耗尽提示 -->
-    <transition name="fade">
-      <div v-if="stability <= 0" class="stability-alert">
-        <p>「灵魂已支离破碎...」</p>
-        <small>因果律已拒绝你的连接。唯有完成一次纯粹的愿望，方可重塑灵魂。</small>
-      </div>
-    </transition>
     
     <button 
       @click="handleSubmit" 
       class="submit-button"
-      :disabled="!wishInput.trim() || wishInput.length > maxLength || isSubmitting || count <= 0 || stability <= 0"
+      :disabled="!wishInput.trim() || wishInput.length > maxLength || isSubmitting || count <= 0"
     >
       <template v-if="!isSubmitting">
-        <span v-if="stability <= 0">灵魂破碎</span>
-        <span v-else-if="count > 0">签订契约</span>
+        <span v-if="count > 0">签订契约</span>
         <span v-else>能量不足</span>
       </template>
       <span v-else class="loading-dots">因果计算中<span>.</span><span>.</span><span>.</span></span>
@@ -187,71 +161,39 @@ const remainingChars = computed(() => {
   color: #e74c3c;
 }
 
-.energy-status-row {
+.energy-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  font-family: monospace;
-}
-
-.cd-text {
-  font-size: 0.8rem;
-  color: #7f8c8d;
+  margin-bottom: 15px;
 }
 
 .slots {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  border: 1.5px solid #2c3e50;
+  border: 2px solid #2c3e50;
   background-color: transparent;
   transition: all 0.3s ease;
 }
 
-.dot.purple.active {
+.dot.active {
   background-color: #8e44ad;
   border-color: #8e44ad;
-  box-shadow: 0 0 4px rgba(142, 68, 173, 0.5);
+  box-shadow: 0 0 8px rgba(142, 68, 173, 0.5);
 }
 
-.dot.red.active {
-  background-color: #e74c3c;
-  border-color: #e74c3c;
-  box-shadow: 0 0 4px rgba(231, 76, 60, 0.5);
-}
-
-.separator {
-  color: #bdc3c7;
-  font-weight: bold;
-  margin: 0 4px;
-}
-
-.stability-alert {
-  background-color: rgba(231, 76, 60, 0.1);
-  border: 1px solid #e74c3c;
-  padding: 10px 15px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #c0392b;
-}
-
-.stability-alert p {
-  margin: 0 0 5px 0;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.stability-alert small {
+.status-text {
   font-size: 0.75rem;
-  display: block;
+  color: #7f8c8d;
+  font-family: monospace;
+  letter-spacing: 1px;
 }
 
 .submit-button {
@@ -327,16 +269,4 @@ const remainingChars = computed(() => {
   20% { opacity: 1; }
   100% { opacity: 0.2; }
 }
-
-/* 简单的淡入淡出过渡 */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
 </style>
-
