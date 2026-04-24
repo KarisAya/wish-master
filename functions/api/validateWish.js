@@ -133,7 +133,7 @@ export async function onRequest(context) {
     try {
       auditCompletion = await openai.chat.completions.create({
         messages: [{ role: "system", content: finalAuditPrompt }],
-        model: "deepseek-chat",
+        model: "deepseek-v4-flash",
         response_format: { type: "json_object" }
       });
     } catch (e) {
@@ -185,7 +185,7 @@ export async function onRequest(context) {
     try {
       genCompletion = await openai.chat.completions.create({
         messages: [{ role: "system", content: generationPrompt }],
-        model: "deepseek-chat",
+        model: "deepseek-v4-flash",
         response_format: { type: "json_object" }
       });
     } catch (e) {
