@@ -23,7 +23,7 @@ const closeSupport = () => {
 
     <div class="disclaimer">
       所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br>
-      智慧来源：DeepSeek-V3
+      智慧来源：DeepSeek-V4-flash 
     </div>
 
     <div class="copyright">
