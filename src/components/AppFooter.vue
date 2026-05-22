@@ -18,7 +18,7 @@ const closeSupport = () => {
   <footer class="app-footer">
     <div class="divider"></div>
     <div class="system-log">
-      <span class="log-tag">[ System Patch v1.2-Unstable ]</span>
+      <span class="log-tag">[ System Patch v1.3-Unstable ]</span>
       <p>因果律稳压器已上线。防止现实扭曲场过载。</p>
     </div>
 
@@ -29,7 +29,7 @@ const closeSupport = () => {
 
     <div class="disclaimer">
       所有的愿望都已在暗中标好了代价。本系统基于逻辑推演，不承担任何因果责任。<br />
-      智慧来源：DeepSeek-V3
+      智慧来源：deepseek-v4-flash
     </div>
 
     <div class="copyright">
